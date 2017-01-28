@@ -1,17 +1,21 @@
 package main
 
 import (
-"os" 
-"fmt"
-"flag"
-"io/ioutil"
-"strings"
+	"flag"
+	"fmt"
+	"io/ioutil"
+	"os"
+	"strings"
 )
+
 var inputFilename string
-var outputFilename string
+var author string
+var title string
 
 func mainExitCode() int {
 	flag.StringVar(&inputFilename, "f", "", "Input filename")
+	flag.StringVar(&author, "a", "", "Author")
+	flag.StringVar(&title, "t", "", "Title")
 	flag.Parse()
 	if inputFilename == "" {
 		fmt.Println("Input Filename can't be empty, print --help for usage")
@@ -21,6 +25,10 @@ func mainExitCode() int {
 	if err != nil {
 		fmt.Println(err)
 		return 1
+	}
+	if author != "" && title != "" {
+		fmt.Println(title)
+		fmt.Println(author)
 	}
 	fmt.Println(strings.TrimLeft(RemoveHtmlTags(RubyToBunko(AddNewline(string(data)))), "\r\n \t"))
 	return 0
