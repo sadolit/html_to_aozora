@@ -32,8 +32,21 @@ var TestRemoveHtmlTagsData = []struct {
 	{"</div>", ""},
 	{"<div></div>", ""},
 	{`<div class="tab0">CSS code formatter</div><div class="tab2">CSS code  compressor</div><br></br>`, "CSS code formatterCSS code  compressor"},
-	{`<rb>合<img gaiji="gaiji" src="../../../gaiji/2-03/2-03-54.png" alt="※(「丞／（厄－厂）」、第4水準2-3-54)" class="gaiji"></rb><rp>`,
-		"合"},
+	{`合<rb>合<img gaiji="gaiji" src="../../../gaiji/2-03/2-03-54.png" alt="※(「丞／（厄－厂）」、第4水準2-3-54)" class="gaiji"></rb><rp>`,
+		"合合"},
+}
+
+var TestAddNewlineData = []struct {
+	in       string
+	expected string
+}{
+	{"", ""},
+	{"<div>", "<div>"},
+	{"abc<br>abc", "abc\nabc"},
+	{"abc</br>abc", "abc\nabc"},
+	{"abc<br/>abc", "abc\nabc"},
+	{"abc</  br>abc", "abc\nabc"},
+	{"abc< br />abc", "abc\nabc"},
 }
 
 func makeTimestamp() int64 {
@@ -56,6 +69,18 @@ func TestRemoveHtmlTags(t *testing.T) {
 	for _, testData := range TestRemoveHtmlTagsData {
 		beginTime := makeTimestamp()
 		actualBunko := RemoveHtmlTags(testData.in)
+		if testData.expected != actualBunko {
+			t.Errorf("Input: [%s].Expected [%s], but it was [%s] instead.", testData.in, testData.expected, actualBunko)
+		}
+		endTime := makeTimestamp()
+		fmt.Printf("Test took %d\n", (endTime - beginTime))
+	}
+}
+
+func TestAddNewline(t *testing.T) {
+	for _, testData := range TestAddNewlineData {
+		beginTime := makeTimestamp()
+		actualBunko := AddNewline(testData.in)
 		if testData.expected != actualBunko {
 			t.Errorf("Input: [%s].Expected [%s], but it was [%s] instead.", testData.in, testData.expected, actualBunko)
 		}

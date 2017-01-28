@@ -17,3 +17,8 @@ func RemoveHtmlTags(in string) string {
 	var removeTag = regexp.MustCompile("(?Ui)<(.|\n)*>")
 	return removeTag.ReplaceAllString(in, "")
 }
+
+func AddNewline(in string) string {
+	var convertBrToN = regexp.MustCompile("<\\/{0,1}\\s*br\\s*/{0,1}>")
+	return convertBrToN.ReplaceAllString(in, "\n")
+}
