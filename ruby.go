@@ -12,3 +12,8 @@ func RubyToBunko(in string) string {
 	var woRtStart = removeRtStart.ReplaceAllString(woRubtAndRb, "《")
 	return removeRtEnd.ReplaceAllString(woRtStart, "》")
 }
+
+func RemoveHtmlTags(in string) string {
+	var removeTag = regexp.MustCompile("(?Ui)<(.|\n)*>")
+	return removeTag.ReplaceAllString(in, "")
+}

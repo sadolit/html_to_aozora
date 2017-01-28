@@ -1,9 +1,9 @@
 package main
 
 import (
-"testing"
-"fmt"
-"time"
+	"fmt"
+	"testing"
+	"time"
 )
 
 var testRubyToBunkoData = []struct {
@@ -19,18 +19,43 @@ var testRubyToBunkoData = []struct {
 		"媒妁人《なかうど》先《ま》づいふめでたしと、舅姑《きうこ》またいふめでたしと、親類等皆いふめでたしと、知己《ちき》朋友《ほういう》皆いふめでたしと、渠等《かれら》は欣々然《きん／＼ぜん》として新夫婦の婚姻を祝す、婚礼果してめでたきか。<br>"},
 	{"ABC<ruby><rb>媒妁人</rb><rp>（</rp><rt>なかうど</rt><rp>）</rp></ruby>ABC",
 		"ABC媒妁人《なかうど》ABC"},
-		{"<ruby>攻殻<rt>こうかく</rt>機動隊<rt>きどうたい</rt></ruby>",
+	{"<ruby>攻殻<rt>こうかく</rt>機動隊<rt>きどうたい</rt></ruby>",
 		"攻殻《こうかく》機動隊《きどうたい》"},
 }
 
+var TestRemoveHtmlTagsData = []struct {
+	in       string
+	expected string
+}{
+	{"", ""},
+	{"<div>", ""},
+	{"</div>", ""},
+	{"<div></div>", ""},
+	{`<div class="tab0">CSS code formatter</div><div class="tab2">CSS code  compressor</div><br></br>`, "CSS code formatterCSS code  compressor"},
+	{`<rb>合<img gaiji="gaiji" src="../../../gaiji/2-03/2-03-54.png" alt="※(「丞／（厄－厂）」、第4水準2-3-54)" class="gaiji"></rb><rp>`,
+		"合"},
+}
+
 func makeTimestamp() int64 {
-    return time.Now().UnixNano() / (int64(time.Millisecond)/int64(time.Nanosecond))
+	return time.Now().UnixNano() / (int64(time.Millisecond) / int64(time.Nanosecond))
 }
 
 func TestRubyToBunko(t *testing.T) {
 	for _, testData := range testRubyToBunkoData {
 		beginTime := makeTimestamp()
 		actualBunko := RubyToBunko(testData.in)
+		if testData.expected != actualBunko {
+			t.Errorf("Input: [%s].Expected [%s], but it was [%s] instead.", testData.in, testData.expected, actualBunko)
+		}
+		endTime := makeTimestamp()
+		fmt.Printf("Test took %d\n", (endTime - beginTime))
+	}
+}
+
+func TestRemoveHtmlTags(t *testing.T) {
+	for _, testData := range TestRemoveHtmlTagsData {
+		beginTime := makeTimestamp()
+		actualBunko := RemoveHtmlTags(testData.in)
 		if testData.expected != actualBunko {
 			t.Errorf("Input: [%s].Expected [%s], but it was [%s] instead.", testData.in, testData.expected, actualBunko)
 		}
