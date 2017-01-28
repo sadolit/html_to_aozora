@@ -1,6 +1,10 @@
 package main
 
-import "testing"
+import (
+"testing"
+"fmt"
+"time"
+)
 
 var testRubyToBunkoData = []struct {
 	in       string
@@ -15,13 +19,22 @@ var testRubyToBunkoData = []struct {
 		"媒妁人《なかうど》先《ま》づいふめでたしと、舅姑《きうこ》またいふめでたしと、親類等皆いふめでたしと、知己《ちき》朋友《ほういう》皆いふめでたしと、渠等《かれら》は欣々然《きん／＼ぜん》として新夫婦の婚姻を祝す、婚礼果してめでたきか。<br>"},
 	{"ABC<ruby><rb>媒妁人</rb><rp>（</rp><rt>なかうど</rt><rp>）</rp></ruby>ABC",
 		"ABC媒妁人《なかうど》ABC"},
+		{"<ruby>攻殻<rt>こうかく</rt>機動隊<rt>きどうたい</rt></ruby>",
+		"攻殻《こうかく》機動隊《きどうたい》"},
+}
+
+func makeTimestamp() int64 {
+    return time.Now().UnixNano() / (int64(time.Millisecond)/int64(time.Nanosecond))
 }
 
 func TestRubyToBunko(t *testing.T) {
 	for _, testData := range testRubyToBunkoData {
+		beginTime := makeTimestamp()
 		actualBunko := RubyToBunko(testData.in)
 		if testData.expected != actualBunko {
 			t.Errorf("Input: [%s].Expected [%s], but it was [%s] instead.", testData.in, testData.expected, actualBunko)
 		}
+		endTime := makeTimestamp()
+		fmt.Printf("Test took %d\n", (endTime - beginTime))
 	}
 }
