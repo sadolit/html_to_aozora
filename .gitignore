@@ -1,0 +1,11 @@
+*.o
+*.a
+*.so
+_obj
+_test
+_testmain.go
+*.exe
+*.test
+*.prof
+*.out
+
