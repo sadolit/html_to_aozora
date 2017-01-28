@@ -23,7 +23,7 @@ var testRubyToBunkoData = []struct {
 		"攻殻《こうかく》機動隊《きどうたい》"},
 }
 
-var TestRemoveHtmlTagsData = []struct {
+var testRemoveHTMLTagsData = []struct {
 	in       string
 	expected string
 }{
@@ -36,7 +36,7 @@ var TestRemoveHtmlTagsData = []struct {
 		"合合"},
 }
 
-var TestAddNewlineData = []struct {
+var testAddNewlineData = []struct {
 	in       string
 	expected string
 }{
@@ -66,9 +66,9 @@ func TestRubyToBunko(t *testing.T) {
 }
 
 func TestRemoveHtmlTags(t *testing.T) {
-	for _, testData := range TestRemoveHtmlTagsData {
+	for _, testData := range testRemoveHTMLTagsData {
 		beginTime := makeTimestamp()
-		actualBunko := RemoveHtmlTags(testData.in)
+		actualBunko := RemoveHTMLTags(testData.in)
 		if testData.expected != actualBunko {
 			t.Errorf("Input: [%s].Expected [%s], but it was [%s] instead.", testData.in, testData.expected, actualBunko)
 		}
@@ -78,7 +78,7 @@ func TestRemoveHtmlTags(t *testing.T) {
 }
 
 func TestAddNewline(t *testing.T) {
-	for _, testData := range TestAddNewlineData {
+	for _, testData := range testAddNewlineData {
 		beginTime := makeTimestamp()
 		actualBunko := AddNewline(testData.in)
 		if testData.expected != actualBunko {

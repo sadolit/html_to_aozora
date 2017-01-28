@@ -30,7 +30,7 @@ func mainExitCode() int {
 		fmt.Println(title)
 		fmt.Println(author)
 	}
-	fmt.Println(strings.TrimLeft(RemoveHtmlTags(RubyToBunko(AddNewline(string(data)))), "\r\n \t"))
+	fmt.Println(strings.TrimLeft(RemoveHTMLTags(RubyToBunko(AddNewline(string(data)))), "\r\n \t"))
 	return 0
 }
 
