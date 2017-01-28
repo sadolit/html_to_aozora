@@ -5,5 +5,5 @@ Simple program to convert ruby containing HTML code to ruby containing Aozora te
 
 ## Usage
 ```sh
-$ html_to_aozora -f <Input filename> [-o <Output filename>]
+$ html_to_aozora -f <Input filename> [-a <Author>] [-t <Title>]
 ```
