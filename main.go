@@ -14,8 +14,8 @@ var title string
 
 func mainExitCode() int {
 	flag.StringVar(&inputFilename, "f", "", "Input filename")
-	flag.StringVar(&author, "a", "", "Author. Can be empty")
-	flag.StringVar(&title, "t", "", "Title. Can be empty")
+	flag.StringVar(&author, "a", "Unknown author", "Author. Can be empty")
+	flag.StringVar(&title, "t", "Unknown title", "Title. Can be empty")
 	flag.Parse()
 	if inputFilename == "" {
 		fmt.Println("Input Filename can't be empty, print --help for usage")
@@ -29,6 +29,7 @@ func mainExitCode() int {
 	if author != "" && title != "" {
 		fmt.Println(title)
 		fmt.Println(author)
+		fmt.Println("")
 	}
 	fmt.Println(strings.TrimLeft(RemoveHTMLTags(RubyToBunko(AddNewline(string(data)))), "\r\n \t"))
 	return 0
